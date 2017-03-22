@@ -48,6 +48,7 @@ def openPreview(self):
     # Initialize a number of variables used by the add-on:
     config = loadConfig()
 
+
     if config["dsp"][0]:
         trySetAttribute(self, "_previewBoth", True) 
     else:
@@ -183,6 +184,35 @@ def setupPreviewRev(self, layout):
     self._previewRevArea.hide()
     layout.addWidget(self._previewRevArea)
 
+def updatePreviewButtons(self):
+    """Toggle next/previous buttons"""
+    if not self._previewWindow:
+        return
+    current = self.currentRow()
+    # improve the default behaviour of the previewer:
+    canBack = (current > 0 or (current == 0 and self._previewState == "answer" 
+            and not self._previewBoth))
+    self._previewPrev.setEnabled(not not (self.singleCard and canBack))
+    canForward = self.currentRow() < self.model.rowCount(None) - 1 or \
+                 self._previewState == "question"
+    self._previewNext.setEnabled(not not (self.singleCard and canForward))
+
+def onPreviewPrev(self):
+    if self._previewState == "answer" and not self._previewBoth:
+        self._previewState = "question"
+        self._renderPreview()
+    else:
+        self.onPreviousCard()
+    self._updatePreviewButtons()
+
+def onPreviewNext(self):
+    if self._previewState == "question":
+        self._previewState = "answer"
+        self._renderPreview()
+    else:
+        self.onNextCard()
+    self._updatePreviewButtons()
+
 def onPreviewModeToggle(self):
     """Switches between preview modes ('front' vs 'back and front')"""
     self._previewBoth = self._previewToggle.isChecked()
@@ -232,7 +262,7 @@ def renderPreview(self, cardChanged=False):
     """Generates the preview window content"""
     if not self._previewWindow:
         return
-    
+
     oldfocus = None
     cids = self.selectedCards()
     multi = len(cids) > 1 # multiple cards selected?
@@ -311,3 +341,4 @@ def renderPreview(self, cardChanged=False):
     clearAudioQueue()
     if not multi and self.mw.reviewer.autoplay(c):
         playFromText(txt)
+

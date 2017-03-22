@@ -46,6 +46,9 @@ Browser._openPreview = openPreview
 Browser._renderPreview = renderPreview
 Browser._previewLinkHandler = previewLinkHandler
 Browser._onPreviewModeToggle = onPreviewModeToggle
+Browser._updatePreviewButtons = updatePreviewButtons
+Browser._onPreviewPrev = onPreviewPrev
+Browser._onPreviewNext = onPreviewNext
 
 Browser._setupPreviewRev = setupPreviewRev
 Browser._onPreviewAnswer = onPreviewAnswer
