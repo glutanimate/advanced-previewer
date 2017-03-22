@@ -1,0 +1,10 @@
+*.pyo
+*.pyc
+*.sublime-project
+*.sublime-workspace
+.hidden
+.directory
+advanced_previewer/forms
+tools/test.py
+docs/todo.md
+advanced-previewer-*.zip
