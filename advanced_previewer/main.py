@@ -40,18 +40,20 @@ def setupAddon():
 
 addHook("profileLoaded", setupAddon)
 
+# existing methods:
 Browser.onTogglePreview = wrap(Browser.onTogglePreview, onTogglePreview)
-Browser.scrollToPreview = scrollToPreview
 Browser._openPreview = openPreview
 Browser._renderPreview = renderPreview
-Browser._previewLinkHandler = previewLinkHandler
-Browser._onPreviewModeToggle = onPreviewModeToggle
 Browser._updatePreviewButtons = updatePreviewButtons
 Browser._onPreviewPrev = onPreviewPrev
 Browser._onPreviewNext = onPreviewNext
-
+# new methods:
+Browser.scrollToPreview = scrollToPreview
+Browser._previewLinkHandler = previewLinkHandler
+Browser._onPreviewModeToggle = onPreviewModeToggle
 Browser._setupPreviewRev = setupPreviewRev
 Browser._onPreviewAnswer = onPreviewAnswer
 Browser._updatePreviewAnswers = updatePreviewAnswers
+Browser._onPreviewMove = onPreviewMove
 
 Scheduler._nextRevIvl = wrap(Scheduler._nextRevIvl, nextRevIvl, "around")

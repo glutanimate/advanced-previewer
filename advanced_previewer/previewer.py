@@ -128,7 +128,18 @@ def openPreview(self):
             self._previewWindow, activated=self.onSuspend)
     susCut = QShortcut(QKeySequence(_("Ctrl+K")), 
             self._previewWindow, activated=self.onMark)
-    
+    startCut = QShortcut(QKeySequence(_("Alt+Home")), 
+            self._previewWindow, 
+            activated=lambda: self._onPreviewMove("s"))
+    endCut = QShortcut(QKeySequence(_("Alt+End")), 
+            self._previewWindow, 
+            activated=lambda: self._onPreviewMove("e"))
+    nextCut = QShortcut(QKeySequence(_("Alt+PgDown")), 
+            self._previewWindow, 
+            activated=lambda: self._onPreviewMove("n"))
+    prevCut = QShortcut(QKeySequence(_("Alt+PgUp")), 
+            self._previewWindow, 
+            activated=lambda: self._onPreviewMove("p"))
 
     # Set up window and launch preview
     vbox.addWidget(bottom, 0)
@@ -136,6 +147,18 @@ def openPreview(self):
     restoreGeom(self._previewWindow, "preview")
     self._previewWindow.show()
     self._renderPreview(True)
+
+def onPreviewMove(self, target):
+    """Move row selection to new target"""
+    if target == "s":
+        self.form.tableView.selectRow(0)
+    elif target == "e":
+        max = self.model.rowCount(None)
+        self.form.tableView.selectRow(max-1)
+    elif target == "p":
+        self.onPreviousCard()
+    elif target == "n":
+        self.onNextCard()
 
 def setupPreviewRev(self, layout):
     """Sets up review area of the preview window"""
