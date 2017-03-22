@@ -17,7 +17,6 @@ from anki.consts import *
 
 from aqt.utils import tooltip
 
-from .consts import *
 from .config import loadConfig
 from .utils import trySetAttribute, transl
 
