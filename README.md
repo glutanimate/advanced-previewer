@@ -20,11 +20,15 @@ Extends Anki's card previewer with the following features:
 
 ### Screenshots
 
-![showcasing multiple card previews]()
+![showcasing multiple card previews](screenshots/multiple-cards.png)
 
-![showcasing card reviewing support]()
+![showcasing card reviewing support](screenshots/card-reviews.png)
+
+![showcasing options menu](screenshots/options.png)
 
 ### Video Demonstration
+
+[![YouTube: Anki Add-on: Advanced Previewer](https://i.ytimg.com/vi/?/mqdefault.jpg)](https://youtu.be/?)
 
 ### Installation
 
@@ -42,7 +46,7 @@ Extends Anki's card previewer with the following features:
 
 ### Documentation
 
-For information on the use of this add-on please check out [the original add-on description](docs/description.md).
+For further information on the use of this add-on please check out [the original add-on description](docs/description.md).
 
 ### Credits and License
 

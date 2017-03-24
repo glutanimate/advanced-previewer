@@ -8,9 +8,11 @@ Extends the card previewer window with the following new features:
 - **Review cards** from the previewer
 - **Show question or answer side** by default
 
-![showcasing multiple card previews]()
+![showcasing multiple card previews](https://github.com/Glutanimate/advanced-previewer/blob/master/screenshots/multiple-cards.png?raw=true)
 
-![showcasing card reviewing support]()
+![showcasing card reviewing support](https://github.com/Glutanimate/advanced-previewer/blob/master/screenshots/card-reviews.png?raw=true)
+
+![showcasing options menu](https://github.com/Glutanimate/advanced-previewer/blob/master/screenshots/options.png?raw=true)
 
 **Changelog**
 
@@ -26,9 +28,11 @@ Extends the card previewer window with the following new features:
 
 Most of the features should be pretty self-explanatory, but I've recorded a quick video demonstration that should help you get started with the add-on:
 
+[![YouTube: Anki Add-on: Advanced Previewer](https://i.ytimg.com/vi/?/mqdefault.jpg)](https://youtu.be/?)
+
 **Options**
 
-Advanced Previewer comes with a simple options menu which can be invoked through *Tools* → *Advanced Previewer Options...*. You can use this to enable card reviewing support among other things.
+Advanced Previewer comes with a simple options menu which can be invoked through *Tools* → *Advanced Previewer Options...*. You can use this to enable card reviewing support, among other things.
 
 **Important Remarks**
 
