@@ -30,7 +30,7 @@ Extends Anki's card previewer with the following features:
 
 *AnkiWeb*
 
-[Link to the add-on on AnkiWeb]()
+[Link to the add-on on AnkiWeb](https://ankiweb.net/shared/info/544521385)
 
 *Manual installation*
 
