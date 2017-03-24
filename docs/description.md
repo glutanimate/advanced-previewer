@@ -8,11 +8,7 @@ Extends the card previewer window with the following new features:
 - **Review cards** from the previewer
 - **Show question or answer side** by default
 
-![showcasing multiple card previews](https://github.com/Glutanimate/advanced-previewer/blob/master/screenshots/multiple-cards.png?raw=true)
-
-![showcasing card reviewing support](https://github.com/Glutanimate/advanced-previewer/blob/master/screenshots/card-reviews.png?raw=true)
-
-![showcasing options menu](https://github.com/Glutanimate/advanced-previewer/blob/master/screenshots/options.png?raw=true)
+![showcasing the add-on](https://github.com/Glutanimate/advanced-previewer/blob/master/screenshots/combined.png?raw=true)
 
 **Changelog**
 

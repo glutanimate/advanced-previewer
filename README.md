@@ -20,9 +20,7 @@ Extends Anki's card previewer with the following features:
 
 ### Screenshots
 
-![showcasing multiple card previews](screenshots/multiple-cards.png)
-
-![showcasing card reviewing support](screenshots/card-reviews.png)
+![showcasing the add-on](screenshots/combined.png)
 
 ![showcasing options menu](screenshots/options.png)
 
