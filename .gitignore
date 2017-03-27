@@ -7,5 +7,6 @@
 advanced_previewer/forms
 tools/test.py
 docs/todo.md
+docs/description.html
 advanced-previewer-*.zip
 .gitold
