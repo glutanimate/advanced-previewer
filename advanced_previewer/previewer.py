@@ -189,7 +189,7 @@ def setupPreviewRev(self, layout):
         # labels
         btn.setAutoDefault(False)
         btn.setAutoRepeat(False)
-        btn.setToolTip(_("Shortcut key: %s" % str(idx+1)))
+        btn.setToolTip(_("Shortcut key: %s" % str(idx)))
         label = QLabel("")
         label.setAlignment(Qt.AlignCenter)
         v.addWidget(label)
