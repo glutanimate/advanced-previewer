@@ -14,9 +14,9 @@ Extends the card preview window with the following new features:
 
 **The latest update introduces a new file structure. Please make sure to remove any previous versions of the add-on you might have installed before updating.**
 
-- 2017-03-23 – Completely reworked add-on from the ground up, introducing card reviewing and a new options menu
-- 2016-12-09 – Added support for the "Replay Buttons on Card" and "JS Booster" add-ons
-- 2016-12-04 – Initial release
+- 2017-03-23 – v0.3.2 – Completely reworked add-on from the ground up, introducing card reviewing and a new options menu
+- 2016-12-09 – v0.2.1 – Added support for the "Replay Buttons on Card" and "JS Booster" add-ons
+- 2016-12-04 – v0.2.0 – Initial release
 
 **Usage**
 
@@ -69,4 +69,4 @@ This add-on was originally developed on a commission by [BB on the Anki support 
 
 If you have an idea for an add-on or new feature, please feel free to reach out to me on [Twitter](https://twitter.com/glutanimate), or at glutanimate [αt] gmail . com.
 
-Licensed under the [GNU AGPL v3](https://www.gnu.org/licenses/agpl.html).
+Licensed under the [GNU AGPL v3](https://www.gnu.org/licenses/agpl.html). The source code for this add-on is available on [GitHub](https://github.com/Glutanimate/advanced-previewer).
