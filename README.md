@@ -26,7 +26,7 @@ Extends Anki's card previewer with the following features:
 
 ### Video Demonstration
 
-[![YouTube: Anki Add-on: Advanced Previewer](https://i.ytimg.com/vi/?/mqdefault.jpg)](https://youtu.be/?)
+[![YouTube: Anki Add-on: Advanced Previewer](https://i.ytimg.com/vi/GcilF4S0QMc/mqdefault.jpg)](https://youtu.be/GcilF4S0QMc)
 
 ### Installation
 
