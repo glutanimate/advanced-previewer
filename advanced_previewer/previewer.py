@@ -38,6 +38,13 @@ try:
 except ImportError:
     preview_jsbooster = False
 
+# support for anki-reviewer-file-hyperlinks add-on
+try:
+    fHyperlinks = __import__("anki-reviewer-file-hyperlinks")
+    preview_arfh = True
+except ImportError:
+    preview_arfh = False
+
 def onTogglePreview(self):
     """only used to set the link handler after loading the preview window
     (required in order to be compatible with "Replay Buttons on Card")"""
@@ -266,9 +273,19 @@ def previewLinkHandler(self, url):
         # support for 'Replay Buttons on Card' add-on
         clearAudioQueue() # stop current playback
         play(url[8:])
+    elif url.startswith("open") and preview_arfh:
+        # support for anki-reviewer-file-hyperlinks
+        (cmd, arg) = url.split(":", 1)
+        fHyperlinks.openFileHandler(arg)
     else:
         # handle regular links with the default link handler
         openLink(url)
+
+def insertFileLinks(html):
+    """Support for anki-reviewer-file-hyperlinks"""
+    if not preview_arfh:
+        return html
+    return fHyperlinks.linkInserter(html)
 
 def scrollToPreview(self, cid):
     """Adjusts preview window scrolling position to show supplied card"""
@@ -341,6 +358,9 @@ def renderPreview(self, cardChanged=False):
             ctxt = scriptre.sub("", ctxt)
         txt += html.format(cid, c.ord+1, ctxt)
     txt = re.sub("\[\[type:[^]]+\]\]", "", txt)
+    if preview_arfh:
+        # support for anki-reviewer-file-hyperlinks add-on
+        txt = insertFileLinks(txt)
     ti = lambda x: x
     base = getBase(self.mw.col)
     if preview_jsbooster:
