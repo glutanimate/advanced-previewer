@@ -21,6 +21,7 @@ from aqt.utils import getBase, mungeQA, openLink, saveGeom, restoreGeom
 from anki.hooks import wrap
 from anki.sound import clearAudioQueue, playFromText, play
 from anki.js import browserSel
+from anki.utils import json
 
 from .html import *
 from .config import loadConfig
@@ -365,3 +366,32 @@ def renderPreview(self, cardChanged=False):
     if not multi and self.mw.reviewer.autoplay(c):
         playFromText(txt)
 
+
+def updatePreviewHtml(self, note):
+    replacements = self._selectiveCardRender(note)
+    for cid, html in replacements.items():
+        self._previewWeb.eval(
+            js_replace.format(str(cid), json.dumps(html)))
+    self.scrollToPreview(cid)
+
+
+def selectiveCardRender(self, note):
+    cards = note.cards()
+    replacements = {}
+    for card in cards:
+        cid = card.id
+        if self._previewState == "answer":
+            inner_html = card.a()
+        else:
+            inner_html = card.q()
+        replacements[cid] = inner_html
+    return replacements
+
+js_replace = u"""
+const elm = document.getElementById('{}');
+elm.innerHTML = {}
+"""
+
+def refreshCurrentCard(self, note):
+    self.model.refreshNote(note)
+    self.updatePreviewHtml(note)

@@ -47,6 +47,7 @@ Browser._renderPreview = renderPreview
 Browser._updatePreviewButtons = updatePreviewButtons
 Browser._onPreviewPrev = onPreviewPrev
 Browser._onPreviewNext = onPreviewNext
+Browser.refreshCurrentCard = refreshCurrentCard
 # new methods:
 Browser.scrollToPreview = scrollToPreview
 Browser._previewLinkHandler = previewLinkHandler
@@ -55,5 +56,8 @@ Browser._setupPreviewRev = setupPreviewRev
 Browser._onPreviewAnswer = onPreviewAnswer
 Browser._updatePreviewAnswers = updatePreviewAnswers
 Browser._onPreviewMove = onPreviewMove
+Browser._selectiveCardRender = selectiveCardRender
+Browser.updatePreviewHtml = updatePreviewHtml
+
 
 Scheduler._nextRevIvl = wrap(Scheduler._nextRevIvl, nextRevIvl, "around")
