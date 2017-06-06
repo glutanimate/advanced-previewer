@@ -388,11 +388,17 @@ def renderPreview(self, cardChanged=False):
 
 
 def updatePreviewHtml(self, note):
+    if not self._previewWindow or not hasattr(self, "_previewState"):
+        return
     replacements = self._selectiveCardRender(note)
+    if not replacements:
+        return
+    cid = None
     for cid, html in replacements.items():
         self._previewWeb.eval(
             js_replace.format(str(cid), json.dumps(html)))
-    self.scrollToPreview(cid)
+    if cid:
+        self.scrollToPreview(cid)
 
 
 def selectiveCardRender(self, note):
