@@ -420,4 +420,8 @@ elm.innerHTML = {}
 
 def refreshCurrentCard(self, note):
     self.model.refreshNote(note)
-    self.updatePreviewHtml(note)
+    cids = self.selectedCards()
+    if len(cids) > 1: # multiple cards selected?
+        self.updatePreviewHtml(note)
+    else:
+        self._renderPreview(False)
