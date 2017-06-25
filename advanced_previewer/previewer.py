@@ -18,7 +18,7 @@ from aqt.browser import Browser
 from aqt.webview import AnkiWebView
 
 from aqt.utils import getBase, mungeQA, openLink, saveGeom, restoreGeom
-from anki.hooks import wrap
+from anki.hooks import wrap, runFilter
 from anki.sound import clearAudioQueue, playFromText, play
 from anki.js import browserSel
 from anki.utils import json
@@ -38,12 +38,6 @@ try:
 except ImportError:
     preview_jsbooster = False
 
-# support for anki-reviewer-file-hyperlinks add-on
-try:
-    fHyperlinks = __import__("anki-reviewer-file-hyperlinks")
-    preview_arfh = True
-except ImportError:
-    preview_arfh = False
 
 def onTogglePreview(self):
     """only used to set the link handler after loading the preview window
@@ -260,32 +254,13 @@ def previewLinkHandler(self, url):
         cid = int(url.split()[1])
         self._previewLinkClicked = True
         self.focusCid(cid)
-    elif url.startswith("tagdeck"):
-        # support for anki-reviewer-clickable-tags
-        tag = url.split()[1]
-        deck = self.mw.col.decks.name(self.card.did)
-        search = 'tag:{0} deck:"{1}"'.format(tag, deck)
-        browser = aqt.dialogs.open("Browser", self.mw)
-        # not using setfilter because it grabs keyboard modifiers
-        browser.form.searchEdit.lineEdit().setText(search)
-        browser.onSearch()
     elif url.startswith("ankiplay"):
         # support for 'Replay Buttons on Card' add-on
         clearAudioQueue() # stop current playback
         play(url[8:])
-    elif url.startswith("open") and preview_arfh:
-        # support for anki-reviewer-file-hyperlinks
-        (cmd, arg) = url.split(":", 1)
-        fHyperlinks.openFileHandler(arg)
     else:
         # handle regular links with the default link handler
         openLink(url)
-
-def insertFileLinks(html):
-    """Support for anki-reviewer-file-hyperlinks"""
-    if not preview_arfh:
-        return html
-    return fHyperlinks.linkInserter(html)
 
 def scrollToPreview(self, cid):
     """Adjusts preview window scrolling position to show supplied card"""
@@ -358,9 +333,7 @@ def renderPreview(self, cardChanged=False):
             ctxt = scriptre.sub("", ctxt)
         txt += html.format(cid, c.ord+1, ctxt)
     txt = re.sub("\[\[type:[^]]+\]\]", "", txt)
-    if preview_arfh:
-        # support for anki-reviewer-file-hyperlinks add-on
-        txt = insertFileLinks(txt)
+    txt = runFilter("previewerMungeQA", txt)
     ti = lambda x: x
     base = getBase(self.mw.col)
     if preview_jsbooster:
