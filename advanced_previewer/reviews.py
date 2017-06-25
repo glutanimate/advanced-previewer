@@ -3,171 +3,21 @@
 """
 This file is part of the Advanced Previewer add-on for Anki
 
-Card review methods extending the Previewer and Scheduler
+Modifications to Anki's card scheduler
 
 Copyright: Glutanimate 2016-2017
 License: GNU AGPL, version 3 or later; https://www.gnu.org/licenses/agpl-3.0.en.html
 """
 
 from __future__ import division
-import time
 
-from anki.lang import _
-from anki.consts import *
-
-from aqt.utils import tooltip
-
-from .config import loadConfig
-from .utils import trySetAttribute, transl
-
-
-def updatePreviewAnswers(self):
-    """Update review area of the previewer"""
-
-    config = loadConfig()
-
-    if not config["rev"][0]: # reviewing disabled
-        return
-
-    if config["rev"][3] and self._previewState != "answer": # only answer side
-        self._previewRevArea.hide()
-        return
-
-    c = self.card
-    sched = self.mw.col.sched
-    early = c.queue != 0 and sched.today < c.due # not new, not due yet
-
-    ret = False
-    ahead = False
-    if c.queue in (-1, -2): # buried or suspended
-        self._previewAnsInfo.setText(
-            transl("Buried or suspended cards cannot be reviewed"))
-        self._previewAnsInfo.show()
-        self._previewAns.hide()
-        ret = True
-    elif early and c.queue == 2: # early reviews
-        if config["rev"][1]: # ahead of schedule enabled
-            self._previewAnsInfo.setText(
-                transl("Review Ahead of Schedule:"))
-            self._previewAnsInfo.show()
-            self._previewAns.show()
-            ahead = True
-        else:
-            self._previewAnsInfo.setText(
-                transl("Card is not due, yet"))
-            self._previewAnsInfo.show()
-            self._previewAns.hide()
-            ret = True
-    elif early and c.queue == 3: # early day learning cards
-        self._previewAnsInfo.setText(
-            transl("Day learning cards cannot be reviewed ahead"))
-        self._previewAnsInfo.show()
-        self._previewAns.hide()
-        ret = True
-    else: # scheduled reviews, regular learning cards, and new cards
-        self._previewAnsInfo.hide()
-        self._previewAns.show()
-
-    if ret:
-        self._previewRevArea.show()
-        return
-
-    # buttons and shortcuts
-
-    sched._previewAnsEarly = ahead # early review?
-    cnt = sched.answerButtons(c)
-    if cnt == 2:
-        answers = [_("Again"), _("Good"), None, None]
-    elif cnt == 3:
-        answers = [_("Again"), _("Good"), _("Easy"), None]
-    elif cnt == 4:
-        answers = [_("Again"), _("Hard"), _("Good"), _("Easy")]
-    ease = 0
-    for ans, btn, lbl in zip(answers,
-      self._previewAnsBtns, self._previewAnsLbls):
-        ease += 1
-        if not ans:
-            btn.hide()
-            lbl.hide()
-            continue
-        btn.setText(ans)
-        btn.show()
-        if not self.mw.col.conf['estTimes']: # answer times disabled
-            lbl.hide()
-            continue
-        ivl = sched.nextIvlStr(c, ease, True)
-        lbl.setText(ivl)
-        lbl.show()
-
-    sched._previewAnsEarly = False # reset review mode
-    self._previewAnsAhead = ahead # save review mode for onPreviewAnswer
-
-    self._previewRevArea.show()
-    self._previewAnswers = answers
-    self._previewTimer = time.time()
-
-def onPreviewAnswer(self, ease):
-    """Answer card with given ease"""
-
-    config = loadConfig()
-
-    sched = self.mw.col.sched
-    c = self.card
-    answers = self._previewAnswers
-
-    # sanity checks, none of these should ever be triggered
-    if not c: # no card
-        return
-    if sched.answerButtons(c) < ease: # wrong ease
-        return
-    if c.queue in (-1, -2): # suspended/buried
-        return
-
-    # set queue attributes if not set
-    for attr in ("newCount", "revCount", "lrnCount"):
-        trySetAttribute(sched, attr, 1)
-
-    for attr in ("_newQueue", "_lrnQueue", "_revQueue"):
-        trySetAttribute(sched, attr, [])
-
-    if c.queue == 0: # new
-        if c.id not in sched._newQueue:
-            sched._newQueue.append(c.id)
-    elif c.queue in (1, 3): # lrn
-        if c.id not in sched._lrnQueue:
-            sched._lrnQueue.append(c.id)
-    elif c.queue == 2: # new
-        if c.id not in sched._revQueue:
-            sched._revQueue.append(c.id)
-
-    c.timerStarted = self._previewTimer
-
-    print("==========================================")
-
-    sched._previewAnsEarly = self._previewAnsAhead # early review?
-    sched.answerCard(c, ease)
-
-    print("after review")
-    print("c.due", c.due)
-    print("c.ivl", c.ivl)
-    print("c.factor", c.factor)
-
-    # reset attributes:
-    sched._previewAnsEarly = False
-    c.timerStarted = None
-    # save:
-    self.mw.autosave()
-    self.mw.requireReset()
-    self.model.reset()
-    tooltip(answers[ease-1], period=2000)
-
-    if config["rev"][2]: # automatically switch to next card
-        self.onNextCard()
+from anki.sched import Scheduler
+from anki.hooks import wrap
 
 def nextRevIvl(self, card, ease, _old):
     "Ideal next interval for CARD, given EASE. Adjusted for early cards."
 
-    if not getattr(self, "_previewAnsEarly", False): # regular review
+    if not getattr(self, "revAnsEarly", False): # regular review
         return _old(self, card, ease) # go back to default method
     if self.today >= card.due: # sanity check, should never be triggered
         return _old(self, card, ease)
@@ -250,3 +100,6 @@ def nextRevIvl(self, card, ease, _old):
         interval = ivl4
     # interval capped?
     return min(interval, conf['maxIvl'])
+
+
+Scheduler._nextRevIvl = wrap(Scheduler._nextRevIvl, nextRevIvl, "around")

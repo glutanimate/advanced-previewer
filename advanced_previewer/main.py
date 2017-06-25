@@ -9,16 +9,14 @@ Copyright: Glutanimate 2016-2017
 License: GNU AGPL, version 3 or later; https://www.gnu.org/licenses/agpl-3.0.en.html
 """
 
+from aqt.qt import *
 from aqt import mw
 
-from aqt.browser import Browser
-from anki.sched import Scheduler
+from anki.hooks import addHook
 
-from anki.hooks import wrap, addHook
-
-from .previewer import *
-from .reviews import *
-from .config import AdvPrevOptions
+from .config import loadConfig, AdvPrevOptions
+import previewer
+import reviews
 
 # Menus
 
@@ -39,25 +37,3 @@ def setupAddon():
 # Monkey patches and hooks into Anki's default methods
 
 addHook("profileLoaded", setupAddon)
-
-# existing methods:
-Browser.onTogglePreview = wrap(Browser.onTogglePreview, onTogglePreview)
-Browser._openPreview = openPreview
-Browser._renderPreview = renderPreview
-Browser._updatePreviewButtons = updatePreviewButtons
-Browser._onPreviewPrev = onPreviewPrev
-Browser._onPreviewNext = onPreviewNext
-Browser.refreshCurrentCard = refreshCurrentCard
-# new methods:
-Browser.scrollToPreview = scrollToPreview
-Browser._previewLinkHandler = previewLinkHandler
-Browser._onPreviewModeToggle = onPreviewModeToggle
-Browser._setupPreviewRev = setupPreviewRev
-Browser._onPreviewAnswer = onPreviewAnswer
-Browser._updatePreviewAnswers = updatePreviewAnswers
-Browser._onPreviewMove = onPreviewMove
-Browser._selectiveCardRender = selectiveCardRender
-Browser.updatePreviewHtml = updatePreviewHtml
-
-
-Scheduler._nextRevIvl = wrap(Scheduler._nextRevIvl, nextRevIvl, "around")
