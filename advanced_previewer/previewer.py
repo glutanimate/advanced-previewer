@@ -65,6 +65,7 @@ def openPreview(self):
 
     # Set up window and layout:
     self._previewWindow = QDialog(None, Qt.Window)
+    self._previewWindow.setObjectName("previewer")
     self._previewWindow.setWindowTitle(_("Preview"))
     self._previewWindow.finished.connect(self._onPreviewFinished)
     vbox = QVBoxLayout()
@@ -72,6 +73,7 @@ def openPreview(self):
 
     # Set up web view
     self._previewWeb = AnkiWebView()
+    self._previewWindow.web = self._previewWeb
     self._previewWeb.setLinkHandler(self._previewLinkHandler) # set up custom link handler
     vbox.addWidget(self._previewWeb, 10)
 
