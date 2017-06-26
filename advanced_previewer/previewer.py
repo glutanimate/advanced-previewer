@@ -53,9 +53,11 @@ class Previewer(QDialog):
         self.mw = self.b.mw
         # list of currently previewed card ids
         self.cards = [] 
+        self.card = self.b.card
         # indicates whether user clicked on card in preview
         self.linkClicked = False 
         self.setWindowTitle(_("Preview"))
+        self.setObjectName("Previewer")
         self.setupConfig()
         self.initUI()
         self.finished.connect(self.b._onPreviewFinished)
@@ -579,6 +581,7 @@ class Previewer(QDialog):
             window.scrollTo(0, middle);
             toggleActive(elm);
             """ % cid)
+        self.card = self.b.card
         
 
 def _renderPreviewWrapper(self, cardChanged=False):
