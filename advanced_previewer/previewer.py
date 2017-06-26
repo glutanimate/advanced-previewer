@@ -16,7 +16,8 @@ import aqt
 from aqt.qt import *
 from aqt.browser import Browser
 from aqt.webview import AnkiWebView
-from aqt.utils import getBase, mungeQA, openLink, saveGeom, restoreGeom, tooltip
+from aqt.utils import (getBase, mungeQA, openLink, 
+    saveGeom, restoreGeom, tooltip, askUser)
 
 
 from anki.lang import _
@@ -54,7 +55,6 @@ class Previewer(QDialog):
         self.cards = [] 
         # indicates whether user clicked on card in preview
         self.linkClicked = False 
-        self.setObjectName("previewer")
         self.setWindowTitle(_("Preview"))
         self.setupConfig()
         self.initUI()
@@ -360,7 +360,8 @@ class Previewer(QDialog):
         
         oldfocus = None
         cids = self.b.selectedCards()
-        self.multi = len(cids) > 1 # multiple cards selected?
+        nr = len(cids)
+        multiple_selected = nr > 1
 
         if not cids:
             txt = "Please select one or more cards"
@@ -378,21 +379,33 @@ class Previewer(QDialog):
             else:
                 self.updateRevArea(self.b.card)
 
-        if not self.multi and cids[0] in self.cards:
+        if cids[0] in self.cards and not multiple_selected:
             # moved focus to another previously selected card
+            oldfocus = cids[0]
+            cids = self.cards
+            nr = len(cids)
+            self.multi = nr > 1   
             if cardChanged:
                 # focus changed without any edits
-                if not self.linkClicked and len(self.cards) > 1:
+                if not self.linkClicked and self.multi:
                     # only scroll when coming from browser and multiple cards shown
-                    self.scrollToCard(cids[0])
+                    self.scrollToCard(oldfocus)
                 self.linkClicked = False
                 return
-            else:
-                # focus changed on card edit
-                oldfocus = cids[0]
-                cids = self.cards
-                self.multi = len(cids) > 1   
+        elif multiple_selected:
+            self.multi = True
+        else:
+            self.multi = False
 
+
+        print "multi", self.multi
+        if nr >= 200:
+            q = ("Are you sure you want to preview <b>{} cards</b> at once? "
+                "This might take a while to render".format(nr))
+            ret = askUser(q)
+            if not ret:
+                return False
+       
         html, css, js = self.renderCards(cids)
 
         ti = lambda x: x
@@ -573,38 +586,44 @@ class Previewer(QDialog):
 def _renderPreviewWrapper(self, cardChanged=False):
     if not self._previewWindow:
         return
-    self.previewer.renderPreview(cardChanged)
+    self._previewWindow.renderPreview(cardChanged)
 
 
 def _openPreview(self):
     """Creates and launches the preview window"""
-    self.previewer = Previewer(self)
-    self.previewer.renderPreview(True)
-    self.previewer.show()
-    self._previewWindow = self.previewer
+    pvw = Previewer(self)
+    ret = pvw.renderPreview(True)
+    if ret is False:
+        self.form.previewButton.setChecked(False)
+        return
+    pvw.show()
+    self._previewWindow = self._previewWindow = pvw
 
 
 def _onClosePreview(self):
-    self._previewWindow = self.previewer = self._previewPrev = self._previewNext = None
+    self._previewWindow = self._previewPrev = self._previewNext = None
 
 
 def onTogglePreview(self):
     """only used to set the link handler after loading the preview window
     (required in order to be compatible with "Replay Buttons on Card")"""
-    if self.previewer:
-        self.previewer.web.setLinkHandler(
-            self.previewer.linkHandler)
+    if self._previewWindow:
+        self._previewWindow.web.setLinkHandler(
+            self._previewWindow.linkHandler)
 
 
 def _refreshCurrentCard(self, note):
     self.model.refreshNote(note)
      # multiple cards selected?:
-    if not self.previewer:
+    if not self._previewWindow:
         return
-    if self.previewer.multi:
-        self.previewer.updatePreview(note)
+    print "pvwmulti", self._previewWindow.multi
+    if self._previewWindow.multi:
+        print "updating"
+        self._previewWindow.updatePreview(note)
     else:
-        self.previewer.renderPreview(False)
+        print "rendering"
+        self._previewWindow.renderPreview(False)
 
 
 
