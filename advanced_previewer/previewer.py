@@ -397,8 +397,6 @@ class Previewer(QDialog):
         else:
             self.multi = False
 
-
-        print "multi", self.multi
         if nr >= 200:
             q = ("Are you sure you want to preview <b>{} cards</b> at once? "
                 "This might take a while to render".format(nr))
@@ -617,12 +615,9 @@ def _refreshCurrentCard(self, note):
      # multiple cards selected?:
     if not self._previewWindow:
         return
-    print "pvwmulti", self._previewWindow.multi
     if self._previewWindow.multi:
-        print "updating"
         self._previewWindow.updatePreview(note)
     else:
-        print "rendering"
         self._previewWindow.renderPreview(False)
 
 
