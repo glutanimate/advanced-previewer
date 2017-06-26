@@ -615,9 +615,9 @@ def onTogglePreview(self):
 
 def _refreshCurrentCard(self, note):
     self.model.refreshNote(note)
-     # multiple cards selected?:
     if not self._previewWindow:
         return
+    # multiple cards selected?:
     if self._previewWindow.multi:
         self._previewWindow.updatePreview(note)
     else:
@@ -625,7 +625,6 @@ def _refreshCurrentCard(self, note):
 
 
 
-# existing methods:
 Browser.onTogglePreview = wrap(Browser.onTogglePreview, onTogglePreview)
 Browser._openPreview = _openPreview
 Browser._onClosePreview = _onClosePreview
