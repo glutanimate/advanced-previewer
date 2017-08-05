@@ -15,7 +15,7 @@ from aqt import mw
 from .forms import settings
 
 # dsp: show both sides by default
-# ftr: enable card reviewing
+# rev: card review settings
 default_prefs = {
     "dsp": [False],
     "rev": [False, False, False, False],

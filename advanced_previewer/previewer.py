@@ -19,7 +19,6 @@ from aqt.webview import AnkiWebView
 from aqt.utils import (getBase, mungeQA, openLink, 
     saveGeom, restoreGeom, tooltip, askUser)
 
-
 from anki.lang import _
 from anki.consts import *
 
@@ -35,6 +34,7 @@ from .utils import trySetAttribute, transl
 # Shortcuts for each ease button
 PRIMARY_KEYS = (Qt.Key_1, Qt.Key_2, Qt.Key_3, Qt.Key_4) # 1,2,3,4
 SECONDARY_KEYS = (Qt.Key_J, Qt.Key_K, Qt.Key_L, Qt.Key_Odiaeresis) # J,K,L,Ö
+
 
 # support for JS Booster add-on
 try:
@@ -154,6 +154,8 @@ class Previewer(QDialog):
                 self, activated=self.b.onSuspend)
         susCut = QShortcut(QKeySequence(_("Ctrl+K")), 
                 self, activated=self.b.onMark)
+        delCut = QShortcut(QKeySequence(_("Alt+Delete")), 
+                self, activated=self.b.deleteNotes)
         startCut = QShortcut(QKeySequence(_("Alt+Home")), 
                 self, activated=lambda: self.onMove("s"))
         endCut = QShortcut(QKeySequence(_("Alt+End")), 
@@ -622,7 +624,6 @@ def _refreshCurrentCard(self, note):
         self._previewWindow.updatePreview(note)
     else:
         self._previewWindow.renderPreview(False)
-
 
 
 Browser.onTogglePreview = wrap(Browser.onTogglePreview, onTogglePreview)
