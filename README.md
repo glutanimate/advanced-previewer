@@ -48,10 +48,8 @@ For further information on the use of this add-on please check out [the original
 
 ### Credits and License
 
-*Advanced Previewer* is *Copyright © 2016-2017 [Aristotelis P.](https://github.com/Glutanimate)*
-
 This add-on was originally developed on a commission by [BB on the Anki support forums](https://anki.tenderapp.com/discussions/add-ons/8504-100-for-add-on-developer). The card reviewing feature introduced in the latest update was commissioned by another fellow Anki user who would like to remain anonymous. I would like to thank both of them for their great ideas and generous support in writing this add-on.
 
-If you'd like to hire my services to work an add-on or new feature, please feel free to reach out to me on [Twitter](https://twitter.com/glutanimate), or at <em>ankiglutanimate [αt] gmail . com</em>
+*Advanced Previewer* is *Copyright © 2016-2017 [Aristotelis P.](https://glutanimate.com)*
 
 Licensed under the [GNU AGPL v3](https://www.gnu.org/licenses/agpl.html).

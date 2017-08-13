@@ -8,15 +8,28 @@ Extends the card preview window with the following new features:
 - **Review cards** from the previewer
 - **Show question or answer side** by default
 
-![showcasing the add-on](https://github.com/Glutanimate/advanced-previewer/blob/master/screenshots/combined.png?raw=true)
+![screenshot of the add-on](https://github.com/Glutanimate/advanced-previewer/blob/master/screenshots/combined.png?raw=true)
 
-**CHANGELOG**
+**COMPATIBILITY**
 
-**The latest update introduces a new file structure. Please make sure to remove any previous versions of the add-on you might have installed before updating.**
+This add-on only works with Anki's stable release branch (2.0.x ≥ 2.0.30). The 2.1 beta branch is **not supported** at this point in time.
 
-2017-03-23 – **v0.3.2** – Completely reworked add-on from the ground up, introducing card reviewing and a new options menu
-2016-12-09 – **v0.2.1** – Added support for the "Replay Buttons on Card" and "JS Booster" add-ons
-2016-12-04 – **v0.2.0** – Initial release
+**RELEASE LOG**
+
+2017-08-05: **v0.4.1** – A few new features and major performance improvements
+2017-03-23: **v0.3.2** – Completely reworked the add-on, introducing card reviewing and a new options menu
+2016-12-09: **v0.2.1** – Added support for the "Replay Buttons on Card" and "JS Booster" add-ons
+2016-12-04: **v0.2.0** – Initial public release
+
+**LATEST CHANGES AND NEWS**
+
+2017-08-05 – **v0.4.1**
+
+- Major performance improvements to card rendering
+- Support for third-party extensions
+- Confirmation dialog when invoking previewer on a large number of flashcards (>= 200)
+- Delete hotkey (Alt+Del)
+- Smaller bug fixes and improvements
 
 **USAGE**
 
@@ -30,12 +43,12 @@ Aside from the three main features mentioned above, Advanced Previewer also upda
 
 - fixes a number of [smaller inconsistencies](https://github.com/dae/anki/pull/181) when navigating cards
 - adds the ability to mark (`CTRL+M`) and suspend (`CTRL+J`) cards while the previewer is active
-- adds four quick navigation hotkeys:
+- adds five hotkeys to the previewer:
     - `ALT+Home`: go to first card
     - `ALT+End`: go to last card
     - `ALT+PgUp` to jump to previous card, skipping q/a sides
-    - `Alt+PgDwn` to jump to next card,  skipping q/a sides
-- (advanced) makes it easier to modify the default previewer CSS (you will have to manually edit `html.py` in the add-on directory for this)
+    - `ALT+PgDwn` to jump to next card, skipping q/a sides
+    - `ALT+Delete` to delete current note selection
 
 **OPTIONS**
 
@@ -45,11 +58,21 @@ Advanced Previewer comes with a simple options menu which can be invoked through
 
 **IMPORTANT NOTES**
 
-*Performance considerations*
+*Add-on Incompatibilities*
+
+Advanced Previewer is incompatible with the following add-ons:
+
+- [' Editor fontsize](https://anki.tenderapp.com/discussions/add-ons/10639-advanced-previewer-error)
+
+Other add-ons that overwrite the previewer functions will also not work with Advanced Previewer.
+
+For add-on authors that are interested in adding support for Advanced Previewer to their add-ons: Please refer to [anki-previewer-tagbrowser. py](https://github.com/glutanimate/anki-addons-misc/blob/master/anki-previewer-tagbrowser.py) for an example of how third-party add-ons can be integrated into the previewer.
+
+*Performance Considerations*
 
 Rendering multiple cards at once can be taxing on the system, so please don't try invoking the preview window on too many items. A couple hundred or so should still be fine in most cases.
 
-*Reviewing cards in advance*
+*Reviewing Cards in Advance*
 
 Advanced Previewer offers an option to review cards before their due date. This is disabled by default, but can be enabled through the options menu.
 
@@ -67,6 +90,12 @@ When reviewing cards in advance, please be mindful of the following:
 
 This add-on was originally developed on a commission by [BB on the Anki support forums](https://anki.tenderapp.com/discussions/add-ons/8504-100-for-add-on-developer). The card reviewing feature introduced in the latest update was commissioned by another fellow Anki user who would like to remain anonymous. I would like to thank both of them for their great ideas and generous support in writing this add-on.
 
-I'm always happy for new add-on commissions. If you'd like to hire my services to work an add-on or new feature, please feel free to reach out to me on [Twitter](https://twitter.com/glutanimate), or at <em>ankiglutanimate [αt] gmail . com</em>
-
 Licensed under the [GNU AGPL v3](https://www.gnu.org/licenses/agpl.html). The source code for this add-on is available on [GitHub](https://github.com/Glutanimate/advanced-previewer).
+
+**MORE RESOURCES**
+
+A lot of my add-ons were commissioned by other Anki users. If you enjoy my work and would like to hire my services to work on an add-on or new feature, please feel free to reach out to me at:  ![Email icon](https://glutanimate.com/logos/email.svg) <em>ankiglutanimate [αt] gmail . com</em>
+
+Want to stay up-to-date with my latest add-on releases and updates? Feel free to follow me on Twitter: [![Twitter bird](https://glutanimate.com/logos/twitter.svg)@Glutanimate](https://twitter.com/glutanimate)
+
+New to Anki? Make sure to check out my YouTube channel where I post weekly tutorials on Anki add-ons and related topics: [![YouTube playbutton](https://glutanimate.com/logos/youtube.svg) / Glutanimate](https://www.youtube.com/c/glutanimate)
