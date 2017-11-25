@@ -12,18 +12,20 @@ License: GNU AGPL, version 3 or later; https://www.gnu.org/licenses/agpl-3.0.en.
 from anki.lang import getLang
 
 ui_strings = {
-"de": {
-    "Both sides": 
-        u"Beide Seiten",
-    "Buried or suspended cards cannot be reviewed": 
-        u"Ausgesetzte Karten können nicht gelernt werden",
-    "Review Ahead of Schedule:": 
-        u"Vorauslernen",
-    "Card is not due, yet": 
-        u"Karte ist noch nicht fällig",
-    "Day learning cards cannot be reviewed ahead": 
-        u"Tageslernkarten können nicht im Voraus gelernt werden"
-}}
+    "de": {
+        "Both sides":
+            u"Beide Seiten",
+        "Buried or suspended cards cannot be reviewed":
+            u"Ausgesetzte Karten können nicht gelernt werden",
+        "Review Ahead of Schedule:":
+            u"Vorauslernen",
+        "Card is not due, yet":
+            u"Karte ist noch nicht fällig",
+        "Day learning cards cannot be reviewed ahead":
+            u"Tageslernkarten können nicht im Voraus gelernt werden"
+    }
+}
+
 
 def transl(phrase):
     """Translate string"""
@@ -32,6 +34,7 @@ def transl(phrase):
     if not lang or not ldict:
         return phrase
     return ldict.get(phrase, None) or phrase
+
 
 def trySetAttribute(obj, attr, value):
     if not hasattr(obj, attr):

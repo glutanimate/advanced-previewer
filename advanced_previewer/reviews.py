@@ -14,12 +14,13 @@ from __future__ import division
 from anki.sched import Scheduler
 from anki.hooks import wrap
 
+
 def nextRevIvl(self, card, ease, _old):
     "Ideal next interval for CARD, given EASE. Adjusted for early cards."
 
-    if not getattr(self, "revAnsEarly", False): # regular review
-        return _old(self, card, ease) # go back to default method
-    if self.today >= card.due: # sanity check, should never be triggered
+    if not getattr(self, "revAnsEarly", False):  # regular review
+        return _old(self, card, ease)  # go back to default method
+    if self.today >= card.due:  # sanity check, should never be triggered
         return _old(self, card, ease)
 
     conf = self._revConf(card)
@@ -31,14 +32,14 @@ def nextRevIvl(self, card, ease, _old):
     # card.due:     due date in days since collection was created
     # self.today:   today's date in days since collection was created
     # conf[ease4]:  ease bonus factor for cards marked as easy (e.g. 1.5)
-    
+
     # EASE FACTOR CALCULATION
 
     # This is the formula used in _dynIvlBoost() for studying ahead
-    # (ease averaged with "hard" ease, leading to a potentially 
+    # (ease averaged with "hard" ease, leading to a potentially
     # severe penalty for reviewing cards only a few days ahead of
     # schedule)
-    
+
     #fct = ((card.factor/1000)+1.2)/2
 
     # Instead, we use the formula for regular reviews (no ease penalty):
@@ -64,7 +65,7 @@ def nextRevIvl(self, card, ease, _old):
     #     between due date and actual review date. I've experimented with
     #     using weighting factors, but I haven't been able to find any sensible
     #     values to apply
-    # 2.) Instead of using self._constrainedivl, which factors in the 
+    # 2.) Instead of using self._constrainedivl, which factors in the
     #     interval factor and increments each ivl by at least one day, we
     #     use a simpler approach with max(), similar to the default calculation
     #     for studying ahead
@@ -79,9 +80,9 @@ def nextRevIvl(self, card, ease, _old):
     # diverge, ever coming closer to the intervals you would see if you
     # were to review the card when it's actually due
 
-    ivl2 = int(max(elapsed * 1.2, card.ivl, 1)) # hard (default fct = 1.2)
-    ivl3 = int(max(elapsed * fct, ivl2, 1)) # good
-    ivl4 = int(max(elapsed * fct * conf['ease4'], ivl3, 1)) # easy
+    ivl2 = int(max(elapsed * 1.2, card.ivl, 1))  # hard (default fct = 1.2)
+    ivl3 = int(max(elapsed * fct, ivl2, 1))  # good
+    ivl4 = int(max(elapsed * fct * conf['ease4'], ivl3, 1))  # easy
 
     print("--------------------------------")
     print("card.ivl", card.ivl)

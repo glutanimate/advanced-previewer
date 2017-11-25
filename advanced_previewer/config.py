@@ -22,11 +22,12 @@ default_prefs = {
     "version": 0.4
 }
 
+
 def loadConfig():
     """Load and/or create add-on prefs"""
     prefs = mw.pm.profile
     default = default_prefs
-    if not 'advprev' in prefs:
+    if 'advprev' not in prefs:
         # create initial prefs
         prefs['advprev'] = default
         mw.pm.save()
@@ -36,7 +37,6 @@ def loadConfig():
         for key in list(default.keys()):
             if key not in prefs['advprev']:
                 prefs['advprev'][key] = default[key]
-        oldversion = prefs['advprev']['version']
         prefs['advprev']['version'] = default['version']
         # insert other update actions here:
         prefs['advprev']['nxt'] = default_prefs["rev"]
@@ -44,8 +44,10 @@ def loadConfig():
 
     return mw.pm.profile['advprev']
 
+
 class AdvPrevOptions(QDialog):
     """Global options dialog"""
+
     def __init__(self, mw):
         super(AdvPrevOptions, self).__init__(parent=mw)
         # load qt-designer form:
@@ -58,7 +60,7 @@ class AdvPrevOptions(QDialog):
         self.f.buttonBox.button(
             QDialogButtonBox.RestoreDefaults).clicked.connect(self.onRestore)
         self.f.rev_cbs = (self.f.cb_rev_main, self.f.cb_rev_ahd,
-            self.f.cb_rev_nxt, self.f.cb_rev_ans)
+                          self.f.cb_rev_nxt, self.f.cb_rev_ans)
         config = loadConfig()
         self.setupValues(config)
 

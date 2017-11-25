@@ -15,15 +15,15 @@ from aqt import mw
 from anki.hooks import addHook
 
 from .config import loadConfig, AdvPrevOptions
-import previewer
-import reviews
 
 # Menus
+
 
 def onAdvPrevOptions(mw):
     """Invoke global config dialog"""
     dialog = AdvPrevOptions(mw)
     dialog.exec_()
+
 
 options_action = QAction("A&dvanced Previewer Options...", mw)
 options_action.triggered.connect(lambda _, m=mw: onAdvPrevOptions(m))
@@ -31,9 +31,11 @@ mw.form.menuTools.addAction(options_action)
 
 # Add-on setup
 
+
 def setupAddon():
     loadConfig()
 
 # Monkey patches and hooks into Anki's default methods
+
 
 addHook("profileLoaded", setupAddon)
