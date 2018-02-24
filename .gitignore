@@ -4,6 +4,7 @@
 *.sublime-workspace
 .hidden
 .directory
+.vscode
 advanced_previewer/forms
 tools/test.py
 docs/todo.md
